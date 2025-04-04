@@ -1,6 +1,7 @@
 ﻿using DataAccess.Repositories;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using System;
 
 namespace Presentation.Controllers
 {
@@ -16,33 +17,38 @@ namespace Presentation.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new Poll
+            {
+                Option1VotesCount = 0,
+                Option2VotesCount = 0,
+                Option3VotesCount = 0,
+                DateCreated = DateTime.UtcNow
+            });
         }
 
         [HttpPost]
         public IActionResult Create(
-            [FromServices] PollRepository pollRepository,
-            string title,
-            string option1,
-            string option2,
-            string option3)
+            [FromServices] PollRepository pollRepository, 
+            Poll myPoll) 
         {
-            pollRepository.CreatePoll(title, option1, option2, option3);
-            return RedirectToAction("Index");
+            myPoll.Option1VotesCount = 0;
+            myPoll.Option2VotesCount = 0;
+            myPoll.Option3VotesCount = 0;
+            myPoll.DateCreated = DateTime.UtcNow;
+
+            if (ModelState.IsValid)
+            {
+                pollRepository.CreatePoll(myPoll);
+                return RedirectToAction("Index");
+            }
+
+            return View(myPoll);
         }
 
         public IActionResult Index()
         {
-            var polls = _pollRepository.GetPolls()
-                .OrderByDescending(p => p.DateCreated) 
-                .ToList();
-
+            var polls = _pollRepository.GetPolls();
             return View(polls);
-        }
-
-        public IActionResult Vote(int pollId, int optionNumber)
-        {
-            return RedirectToAction("Index");
         }
     }
 }

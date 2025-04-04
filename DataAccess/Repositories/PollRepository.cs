@@ -16,24 +16,10 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-        public void CreatePoll(string title, string option1, string option2, string option3)
-        {
-            var poll = new Poll
-            {
-                Title = title,
-                Option1Text = option1,
-                Option2Text = option2,
-                Option3Text = option3,
-                Option1VotesCount = 0,
-                Option2VotesCount = 0,
-                Option3VotesCount = 0,
-                DateCreated = DateTime.UtcNow
-            };
-
-            _context.Polls.Add(poll);
+        public void CreatePoll(Poll myPoll) {
+            _context.Polls.Add(myPoll);
             _context.SaveChanges();
         }
-
         public IReadOnlyList<Poll> GetPolls()
         {
             return _context.Polls
