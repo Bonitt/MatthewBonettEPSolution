@@ -1,17 +1,15 @@
 ﻿using DataAccess.DataContext;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
     public class PollRepository
     {
-
-        private PollDbContext _context;
+        private readonly PollDbContext _context;
 
         public PollRepository(PollDbContext context)
         {
@@ -36,6 +34,11 @@ namespace DataAccess.Repositories
             _context.SaveChanges();
         }
 
-
+        public IReadOnlyList<Poll> GetPolls()
+        {
+            return _context.Polls
+                .OrderByDescending(p => p.DateCreated)
+                .ToList();
+        }
     }
 }
