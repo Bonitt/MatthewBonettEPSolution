@@ -1,0 +1,31 @@
+﻿@model List<Domain.Models.Poll>
+
+<h1>Polls</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date Created</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var poll in Model)
+        {
+            <tr>
+                <td>@poll.Title</td>
+                <td>@poll.DateCreated.ToString("g")</td>
+                <td>
+                    <ul>
+                        <li>@poll.Option1Text (@poll.Option1VotesCount votes)</li>
+                        <li>@poll.Option2Text (@poll.Option2VotesCount votes)</li>
+                        <li>@poll.Option3Text (@poll.Option3VotesCount votes)</li>
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Create New Poll</a>
