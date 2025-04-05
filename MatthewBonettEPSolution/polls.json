@@ -17,8 +17,8 @@
     "Option2Text": "qweqw",
     "Option3Text": "qwqw",
     "Option1VotesCount": 0,
-    "Option2VotesCount": 0,
-    "Option3VotesCount": 0,
+    "Option2VotesCount": 1,
+    "Option3VotesCount": 2,
     "DateCreated": "2025-04-05T12:07:16.1367829Z"
   },
   {
@@ -29,7 +29,7 @@
     "Option3Text": "wqeq",
     "Option1VotesCount": 0,
     "Option2VotesCount": 5,
-    "Option3VotesCount": 0,
+    "Option3VotesCount": 1,
     "DateCreated": "2025-04-05T12:09:38.2284423Z"
   },
   {
@@ -38,9 +38,31 @@
     "Option1Text": "asdasd",
     "Option2Text": "asa",
     "Option3Text": "sa",
-    "Option1VotesCount": 0,
-    "Option2VotesCount": 2,
-    "Option3VotesCount": 0,
+    "Option1VotesCount": 32,
+    "Option2VotesCount": 50,
+    "Option3VotesCount": 11,
     "DateCreated": "2025-04-05T12:15:45.1246589Z"
+  },
+  {
+    "Id": 5,
+    "Title": "oh wont you",
+    "Option1Text": "staaay",
+    "Option2Text": "with",
+    "Option3Text": "me",
+    "Option1VotesCount": 0,
+    "Option2VotesCount": 0,
+    "Option3VotesCount": 0,
+    "DateCreated": "2025-04-05T13:00:05.363591Z"
+  },
+  {
+    "Id": 6,
+    "Title": "sdfg",
+    "Option1Text": "sdf",
+    "Option2Text": "fg",
+    "Option3Text": "asdf",
+    "Option1VotesCount": 0,
+    "Option2VotesCount": 0,
+    "Option3VotesCount": 0,
+    "DateCreated": "2025-04-05T13:02:02.0122147Z"
   }
 ]

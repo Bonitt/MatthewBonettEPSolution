@@ -17,15 +17,12 @@ namespace DataAccess.Repositories
             _filePath = filePath;
             Console.WriteLine($"Using storage file: {Path.GetFullPath(_filePath)}");
 
-            // Ensure directory exists
             var dir = Path.GetDirectoryName(_filePath);
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
             {
-                Directory.CreateDirectory(dir);  // Create directory if it doesn't exist
+                Directory.CreateDirectory(dir);  
             }
         }
-
-        // Add a new poll to the JSON file
         public void CreatePoll(Poll newPoll)
         {
             lock (_fileLock)
@@ -41,7 +38,6 @@ namespace DataAccess.Repositories
             }
         }
 
-        // Retrieve all polls from the JSON file
         public IReadOnlyList<Poll> GetPolls(Func<Poll, bool> filter = null)
         {
             var polls = GetAllPolls();
@@ -54,7 +50,6 @@ namespace DataAccess.Repositories
             return polls.OrderByDescending(p => p.DateCreated).ToList();
         }
 
-        // Update the vote count for a poll option
         public void Vote(int pollId, int optionNumber)
         {
             lock (_fileLock)
@@ -68,7 +63,6 @@ namespace DataAccess.Repositories
                     return;
                 }
 
-                // Update the vote count based on the option selected
                 switch (optionNumber)
                 {
                     case 1:
@@ -84,17 +78,15 @@ namespace DataAccess.Repositories
                         throw new ArgumentException("Invalid option number");
                 }
 
-                // Save the updated polls list back to the file
                 SaveAllPolls(polls);
             }
         }
 
-        // Get all polls from the JSON file
         private IEnumerable<Poll> GetAllPolls()
         {
             if (!File.Exists(_filePath))
             {
-                return new List<Poll>();  // Return empty list if file does not exist
+                return new List<Poll>();  
             }
 
             var json = File.ReadAllText(_filePath);
@@ -106,11 +98,10 @@ namespace DataAccess.Repositories
             catch (JsonException ex)
             {
                 Console.WriteLine($"Error reading the file: {ex.Message}");
-                return new List<Poll>();  // Return empty list in case of deserialization error
+                return new List<Poll>(); 
             }
         }
 
-        // Save all polls to the JSON file
         private void SaveAllPolls(List<Poll> polls)
         {
             var json = JsonConvert.SerializeObject(polls, Formatting.Indented);
