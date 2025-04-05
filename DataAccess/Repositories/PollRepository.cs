@@ -1,5 +1,6 @@
 ﻿using DataAccess.DataContext;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,40 @@ namespace DataAccess.Repositories
             _context.Polls.Add(myPoll);
             _context.SaveChanges();
         }
-        public IReadOnlyList<Poll> GetPolls()
+        public IReadOnlyList<Poll> GetPolls(Func<Poll, bool> filter = null)
         {
-            return _context.Polls
-                .OrderByDescending(p => p.DateCreated)
-                .ToList();
+            var query = _context.Polls.AsQueryable();
+
+            if (filter != null)
+            {
+                query = query.Where(filter).AsQueryable();
+            }
+
+            return query.OrderByDescending(p => p.DateCreated).ToList();
+        }
+
+
+        public void Vote(int pollId, int optionNumber)
+        {
+            var poll = _context.Polls.Find(pollId);
+            if (poll == null) return;
+
+            switch (optionNumber)
+            {
+                case 1:
+                    poll.Option1VotesCount++;
+                    break;
+                case 2:
+                    poll.Option2VotesCount++;
+                    break;
+                case 3:
+                    poll.Option3VotesCount++;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid option number");
+            }
+
+            _context.SaveChanges();
         }
     }
 }

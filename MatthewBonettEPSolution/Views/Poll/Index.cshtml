@@ -8,6 +8,7 @@
             <th>Title</th>
             <th>Date Created</th>
             <th>Options</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,9 @@
                         <li>@poll.Option2Text (@poll.Option2VotesCount votes)</li>
                         <li>@poll.Option3Text (@poll.Option3VotesCount votes)</li>
                     </ul>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@poll.Id" class="btn btn-sm btn-info">View</a>
                 </td>
             </tr>
         }

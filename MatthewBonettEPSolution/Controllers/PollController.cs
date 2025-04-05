@@ -1,6 +1,7 @@
 ﻿using DataAccess.Repositories;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Presentation.Controllers
@@ -49,6 +50,23 @@ namespace Presentation.Controllers
         {
             var polls = _pollRepository.GetPolls();
             return View(polls);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var poll = _pollRepository.GetPolls(p => p.Id == id).FirstOrDefault();
+            if (poll == null)
+            {
+                return NotFound();
+            }
+            return View(poll);
+        }
+
+        [HttpPost]
+        public IActionResult Vote(int id, int option)
+        {
+            _pollRepository.Vote(id, option);
+            return RedirectToAction("Index");
         }
     }
 }
