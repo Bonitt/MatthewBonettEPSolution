@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.DataContext;
-using DataAccess.Repositories; 
+using DataAccess.Repositories;
 
 namespace MatthewBonettEPSolution
 {
@@ -20,8 +20,17 @@ namespace MatthewBonettEPSolution
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<PollDbContext>();
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<IPollRepository, PollFileRepository>();
-            builder.Services.AddScoped<PollRepository>();
+
+            // Conditionally register the repository based on configuration
+            bool useFileRepository = builder.Configuration.GetValue<bool>("useFileRepository");
+            if (useFileRepository)
+            {
+                builder.Services.AddScoped<IPollRepository, PollFileRepository>();
+            }
+            else
+            {
+                builder.Services.AddScoped<IPollRepository, PollRepository>();
+            }
 
             var app = builder.Build();
 
@@ -33,7 +42,6 @@ namespace MatthewBonettEPSolution
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
