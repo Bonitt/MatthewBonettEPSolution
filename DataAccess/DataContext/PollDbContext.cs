@@ -1,4 +1,6 @@
 ﻿using Domain.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DataContext
 {
-    public class PollDbContext : DbContext
+    public class PollDbContext : IdentityDbContext<IdentityUser>
     {
         public PollDbContext(DbContextOptions<PollDbContext> options) : base(options)
         {
         }
 
         public DbSet<Poll> Polls { get; set; }
+
+        public DbSet<PollUserVotes> PollUserVoted { get; set; }
     }
 
 }

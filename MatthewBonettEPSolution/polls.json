@@ -64,5 +64,16 @@
     "Option2VotesCount": 0,
     "Option3VotesCount": 0,
     "DateCreated": "2025-04-05T13:02:02.0122147Z"
+  },
+  {
+    "Id": 7,
+    "Title": "bvhg",
+    "Option1Text": "kjasndak",
+    "Option2Text": "knaskjdn",
+    "Option3Text": "askjdna",
+    "Option1VotesCount": 1,
+    "Option2VotesCount": 2,
+    "Option3VotesCount": 1,
+    "DateCreated": "2025-04-05T14:30:07.5603603Z"
   }
 ]

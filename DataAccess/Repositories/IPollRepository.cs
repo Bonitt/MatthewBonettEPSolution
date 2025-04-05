@@ -11,6 +11,6 @@ namespace DataAccess.Repositories
     {
         void CreatePoll(Poll poll);
         IReadOnlyList<Poll> GetPolls(Func<Poll, bool> filter = null);
-        void Vote(int pollId, int optionNumber);
+        void Vote(int pollId, int optionNumber, string userId);
     }
 }

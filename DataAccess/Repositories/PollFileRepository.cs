@@ -20,9 +20,10 @@ namespace DataAccess.Repositories
             var dir = Path.GetDirectoryName(_filePath);
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
             {
-                Directory.CreateDirectory(dir);  
+                Directory.CreateDirectory(dir);
             }
         }
+
         public void CreatePoll(Poll newPoll)
         {
             lock (_fileLock)
@@ -50,7 +51,7 @@ namespace DataAccess.Repositories
             return polls.OrderByDescending(p => p.DateCreated).ToList();
         }
 
-        public void Vote(int pollId, int optionNumber)
+        public void Vote(int pollId, int optionNumber, string userId)
         {
             lock (_fileLock)
             {
@@ -86,7 +87,7 @@ namespace DataAccess.Repositories
         {
             if (!File.Exists(_filePath))
             {
-                return new List<Poll>();  
+                return new List<Poll>();
             }
 
             var json = File.ReadAllText(_filePath);
@@ -98,7 +99,7 @@ namespace DataAccess.Repositories
             catch (JsonException ex)
             {
                 Console.WriteLine($"Error reading the file: {ex.Message}");
-                return new List<Poll>(); 
+                return new List<Poll>();
             }
         }
 
@@ -113,4 +114,5 @@ namespace DataAccess.Repositories
             Console.WriteLine($"Polls saved to: {_filePath}");
         }
     }
+
 }

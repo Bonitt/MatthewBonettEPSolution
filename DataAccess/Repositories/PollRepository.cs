@@ -1,60 +1,62 @@
 ﻿using DataAccess.DataContext;
+using DataAccess.Repositories;
 using Domain.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace DataAccess.Repositories
+public class PollRepository : IPollRepository
 {
-    public class PollRepository : IPollRepository
+    private readonly PollDbContext _context;
+
+    public PollRepository(PollDbContext context)
     {
-        private readonly PollDbContext _context;
+        _context = context;
+    }
 
-        public PollRepository(PollDbContext context)
+    public void CreatePoll(Poll myPoll)
+    {
+        _context.Polls.Add(myPoll);
+        _context.SaveChanges();
+    }
+
+    public IReadOnlyList<Poll> GetPolls(Func<Poll, bool> filter = null)
+    {
+        var query = _context.Polls.AsQueryable();
+
+        if (filter != null)
         {
-            _context = context;
+            query = query.Where(filter).AsQueryable();
         }
 
-        public void CreatePoll(Poll myPoll) {
-            _context.Polls.Add(myPoll);
-            _context.SaveChanges();
-        }
-        public IReadOnlyList<Poll> GetPolls(Func<Poll, bool> filter = null)
+        return query.OrderByDescending(p => p.DateCreated).ToList();
+    }
+
+    public void Vote(int pollId, int optionNumber, string userId)
+    {
+        var poll = _context.Polls.Find(pollId);
+        if (poll == null) return;
+
+        switch (optionNumber)
         {
-            var query = _context.Polls.AsQueryable();
-
-            if (filter != null)
-            {
-                query = query.Where(filter).AsQueryable();
-            }
-
-            return query.OrderByDescending(p => p.DateCreated).ToList();
+            case 1:
+                poll.Option1VotesCount++;
+                break;
+            case 2:
+                poll.Option2VotesCount++;
+                break;
+            case 3:
+                poll.Option3VotesCount++;
+                break;
+            default:
+                throw new ArgumentException("Invalid option number");
         }
 
-
-        public void Vote(int pollId, int optionNumber)
+        var userVote = new PollUserVotes
         {
-            var poll = _context.Polls.Find(pollId);
-            if (poll == null) return;
+            PollId = pollId,
+            UserId = userId
+        };
 
-            switch (optionNumber)
-            {
-                case 1:
-                    poll.Option1VotesCount++;
-                    break;
-                case 2:
-                    poll.Option2VotesCount++;
-                    break;
-                case 3:
-                    poll.Option3VotesCount++;
-                    break;
-                default:
-                    throw new ArgumentException("Invalid option number");
-            }
+        _context.PollUserVoted.Add(userVote);
 
-            _context.SaveChanges();
-        }
+        _context.SaveChanges();
     }
 }

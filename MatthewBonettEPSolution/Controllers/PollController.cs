@@ -2,17 +2,32 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Presentation.ActionFilter;
 using System;
+using DataAccess.DataContext; // Make sure to import your DbContext
 
 namespace Presentation.Controllers
 {
     public class PollController : Controller
     {
         private readonly IPollRepository _pollRepository;
+        private readonly PollDbContext _context; // Inject PollDbContext
 
-        public PollController(IPollRepository pollRepository)
+        // Constructor to inject both PollDbContext and IPollRepository
+        public PollController(IPollRepository pollRepository, PollDbContext context)
         {
             _pollRepository = pollRepository;
+            _context = context; // Initialize the context
+        }
+
+        [HttpPost]
+        [ServiceFilter(typeof(VotingActionFilter))]
+        public IActionResult Vote(int id, int option)
+        {
+            var userId = User.Identity.Name;
+
+            _pollRepository.Vote(id, option, userId);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -29,8 +44,8 @@ namespace Presentation.Controllers
 
         [HttpPost]
         public IActionResult Create(
-            [FromServices] IPollRepository pollRepository, 
-            Poll myPoll) 
+            [FromServices] IPollRepository pollRepository,
+            Poll myPoll)
         {
             myPoll.Option1VotesCount = 0;
             myPoll.Option2VotesCount = 0;
@@ -59,14 +74,14 @@ namespace Presentation.Controllers
             {
                 return NotFound();
             }
-            return View(poll);
-        }
 
-        [HttpPost]
-        public IActionResult Vote(int id, int option)
-        {
-            _pollRepository.Vote(id, option);
-            return RedirectToAction("Index");
+            var userId = User.Identity.Name;
+
+            var hasVoted = _context.PollUserVoted.Any(pv => pv.PollId == id && pv.UserId == userId);
+
+            ViewBag.HasVoted = hasVoted;
+
+            return View(poll);
         }
     }
 }

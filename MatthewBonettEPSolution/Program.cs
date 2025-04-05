@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.DataContext;
 using DataAccess.Repositories;
+using Presentation.ActionFilter;
 
 namespace MatthewBonettEPSolution
 {
@@ -20,11 +21,12 @@ namespace MatthewBonettEPSolution
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<PollDbContext>();
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddScoped<VotingActionFilter>();
             // Conditionally register the repository based on configuration
             bool useFileRepository = builder.Configuration.GetValue<bool>("useFileRepository");
             if (useFileRepository)
             {
+
                 builder.Services.AddScoped<IPollRepository, PollFileRepository>();
             }
             else
@@ -50,6 +52,7 @@ namespace MatthewBonettEPSolution
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

@@ -26,7 +26,10 @@
             <form asp-action="Vote" method="post" style="display:inline;">
                 <input type="hidden" name="id" value="@Model.Id" />
                 <input type="hidden" name="option" value="1" />
-                <button type="submit" class="btn btn-sm btn-primary">Vote</button>
+                <button type="submit" class="btn btn-sm btn-primary"
+                @(ViewBag.HasVoted != null && ViewBag.HasVoted ? "disabled" : "")>
+                    Vote
+                </button>
             </form>
         </dd>
 
@@ -39,7 +42,10 @@
             <form asp-action="Vote" method="post" style="display:inline;">
                 <input type="hidden" name="id" value="@Model.Id" />
                 <input type="hidden" name="option" value="2" />
-                <button type="submit" class="btn btn-sm btn-primary">Vote</button>
+                <button type="submit" class="btn btn-sm btn-primary"
+                @(ViewBag.HasVoted != null && ViewBag.HasVoted ? "disabled" : "")>
+                    Vote
+                </button>
             </form>
         </dd>
 
@@ -52,7 +58,10 @@
             <form asp-action="Vote" method="post" style="display:inline;">
                 <input type="hidden" name="id" value="@Model.Id" />
                 <input type="hidden" name="option" value="3" />
-                <button type="submit" class="btn btn-sm btn-primary">Vote</button>
+                <button type="submit" class="btn btn-sm btn-primary"
+                @(ViewBag.HasVoted != null && ViewBag.HasVoted ? "disabled" : "")>
+                    Vote
+                </button>
             </form>
         </dd>
 
@@ -65,7 +74,6 @@
     </dl>
 </div>
 
-<!-- Chart.js canvas for the poll results -->
 <div>
     <h4>Poll Results Visualization</h4>
     <canvas id="pollResultsChart" width="400" height="200"></canvas>
@@ -85,11 +93,11 @@
         datasets: [{
             label: 'Poll Results',
             data: [
-                    @Model.Option1VotesCount,
-                    @Model.Option2VotesCount,
-                    @Model.Option3VotesCount
-                ],
-            backgroundColor: ['#b7b5b3', '#b80c09', '#141301'], 
+                        @Model.Option1VotesCount,
+                        @Model.Option2VotesCount,
+                        @Model.Option3VotesCount
+                    ],
+            backgroundColor: ['#b7b5b3', '#b80c09', '#141301'],
         }]
     };
 
@@ -104,7 +112,7 @@
 
     var ctx = document.getElementById('pollResultsChart').getContext('2d');
     var pollResultsChart = new Chart(ctx, {
-        type: 'bar', 
+        type: 'bar',
         data: pollData,
         options: options
     });
