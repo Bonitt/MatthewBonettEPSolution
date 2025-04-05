@@ -8,9 +8,9 @@ namespace Presentation.Controllers
 {
     public class PollController : Controller
     {
-        private readonly PollRepository _pollRepository;
+        private readonly IPollRepository _pollRepository;
 
-        public PollController(PollRepository pollRepository)
+        public PollController(IPollRepository pollRepository)
         {
             _pollRepository = pollRepository;
         }
@@ -29,7 +29,7 @@ namespace Presentation.Controllers
 
         [HttpPost]
         public IActionResult Create(
-            [FromServices] PollRepository pollRepository, 
+            [FromServices] IPollRepository pollRepository, 
             Poll myPoll) 
         {
             myPoll.Option1VotesCount = 0;

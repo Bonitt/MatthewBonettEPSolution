@@ -20,7 +20,7 @@ namespace MatthewBonettEPSolution
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<PollDbContext>();
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddScoped<IPollRepository, PollFileRepository>();
             builder.Services.AddScoped<PollRepository>();
 
             var app = builder.Build();

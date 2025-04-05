@@ -1,0 +1,46 @@
+[
+  {
+    "Id": 1,
+    "Title": "gfdxec",
+    "Option1Text": "sdgfsdfg",
+    "Option2Text": "fgd",
+    "Option3Text": "sdfsddsf",
+    "Option1VotesCount": 0,
+    "Option2VotesCount": 1,
+    "Option3VotesCount": 0,
+    "DateCreated": "2025-04-05T12:01:06.721043Z"
+  },
+  {
+    "Id": 2,
+    "Title": "qweqweqwe",
+    "Option1Text": "qweqwe",
+    "Option2Text": "qweqw",
+    "Option3Text": "qwqw",
+    "Option1VotesCount": 0,
+    "Option2VotesCount": 0,
+    "Option3VotesCount": 0,
+    "DateCreated": "2025-04-05T12:07:16.1367829Z"
+  },
+  {
+    "Id": 3,
+    "Title": "vbnvbncvnbc",
+    "Option1Text": "vcbcv",
+    "Option2Text": "sdsd",
+    "Option3Text": "wqeq",
+    "Option1VotesCount": 0,
+    "Option2VotesCount": 5,
+    "Option3VotesCount": 0,
+    "DateCreated": "2025-04-05T12:09:38.2284423Z"
+  },
+  {
+    "Id": 4,
+    "Title": "adasdas",
+    "Option1Text": "asdasd",
+    "Option2Text": "asa",
+    "Option3Text": "sa",
+    "Option1VotesCount": 0,
+    "Option2VotesCount": 2,
+    "Option3VotesCount": 0,
+    "DateCreated": "2025-04-05T12:15:45.1246589Z"
+  }
+]

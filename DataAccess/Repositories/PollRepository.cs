@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DataAccess.Repositories
 {
-    public class PollRepository
+    public class PollRepository : IPollRepository
     {
         private readonly PollDbContext _context;
 
